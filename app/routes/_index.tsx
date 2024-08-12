@@ -1,5 +1,6 @@
 import { Button } from "@chakra-ui/react";
 import type { MetaFunction } from "@remix-run/node";
+import Link from "~/components/atoms/link/Link";
 
 export const meta: MetaFunction = () => {
   return [
@@ -9,5 +10,11 @@ export const meta: MetaFunction = () => {
 };
 
 export default function Index() {
-  return <Button className="mt-5 ml-5">Buttan</Button>;
+  return (
+    <div className="mt-5 ml-5">
+      <Link to={"/react/tutorial"} rounded={10} p={2} bg={"#e0ffff"}>
+        move to react tutorialtutorial
+      </Link>
+    </div>
+  );
 }
