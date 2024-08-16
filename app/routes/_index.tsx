@@ -23,6 +23,11 @@ export default function Index() {
           move to react reducer-context
         </Link>
       </div>
+      <div className="mt-5 ml-5">
+        <Link to={"/react/effect"} rounded={10} p={2} bg={"#e0ffff"}>
+          move to react effect
+        </Link>
+      </div>
     </>
   );
 }
