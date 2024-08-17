@@ -6,23 +6,18 @@ import {
   Input,
   Textarea,
 } from "@chakra-ui/react";
-import { zodResolver } from "@hookform/resolvers/zod";
 import type { ActionFunctionArgs } from "@remix-run/node";
-import {
-  Form,
-  useSubmit,
-  useActionData,
-  useNavigation,
-} from "@remix-run/react";
+import { Form, useSubmit } from "@remix-run/react";
 import { SubmitHandler, useForm } from "react-hook-form";
 
+import { useToast } from "@chakra-ui/react";
+import { useCallback, useEffect } from "react";
 import type { MailForm } from "../../lib/mailFormSchema";
 import { mailformSchema } from "../../lib/mailFormSchema";
-import { useCallback, useEffect } from "react";
-import { useToast } from "@chakra-ui/react";
 
 import { json } from "@remix-run/node";
 import { Resend } from "resend";
+import { useMailForm } from "~/hooks/useMailForm";
 const resend = new Resend(process.env.RESEND_API_KEY);
 
 export const action = async ({ request }: ActionFunctionArgs) => {
@@ -49,29 +44,8 @@ export const action = async ({ request }: ActionFunctionArgs) => {
 };
 
 export default function InquiryForm() {
-  // 直近のactionの返却を受け取る、ない場合はundefined
-  const actionData = useActionData<typeof action>();
-
-  // 保留中のページナビゲーションに関する情報を取得する
-  // POSTだと「idle → submitting → loading → idle」となる
-  const navigation = useNavigation();
-
   const toast = useToast();
-
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    reset,
-  } = useForm<MailForm>({
-    resolver: zodResolver(mailformSchema),
-    defaultValues: {
-      username: "",
-      email: "",
-      subject: "",
-      content: "",
-    },
-  });
+  const form = useMailForm();
 
   const submit = useSubmit();
   const onSubmit = useCallback((data: MailForm) => {
@@ -79,7 +53,7 @@ export default function InquiryForm() {
   }, []);
 
   useEffect(() => {
-    if (navigation.state === "idle" && actionData?.success) {
+    if (form.formState.isSubmitSuccessful) {
       toast({
         title: "送信成功",
         description: "メールが正常に送信されました。",
@@ -87,48 +61,57 @@ export default function InquiryForm() {
         duration: 5000,
         isClosable: true,
       });
-      reset();
+      form.reset();
     }
-  }, [navigation.state, actionData]);
+  }, [form.formState.isSubmitSuccessful]);
 
   return (
     <main className="flex min-h-screen flex-col items-center p-24">
       <h2 className="font-semibold text-2xl mb-4">お問い合わせフォーム</h2>
-      <Form onSubmit={handleSubmit(onSubmit)} className="w-full">
-        <FormControl isInvalid={!!errors.username}>
+      <Form onSubmit={form.handleSubmit(onSubmit)} className="w-full">
+        <FormControl isInvalid={!!form.formState.errors.username}>
           <FormLabel htmlFor="username">名前</FormLabel>
-          <Input id="username" {...register("username")} />
+          <Input id="username" {...form.register("username")} />
           <FormErrorMessage>
-            {errors.username && errors.username.message}
+            {form.formState.errors.username &&
+              form.formState.errors.username.message}
           </FormErrorMessage>
         </FormControl>
 
-        <FormControl isInvalid={!!errors.email} className="mt-3">
+        <FormControl isInvalid={!!form.formState.errors.email} className="mt-3">
           <FormLabel htmlFor="email">メールアドレス</FormLabel>
-          <Input id="email" type="text" {...register("email")} />
+          <Input id="email" type="text" {...form.register("email")} />
           <FormErrorMessage>
-            {errors.email && errors.email.message}
+            {form.formState.errors.email && form.formState.errors.email.message}
           </FormErrorMessage>
         </FormControl>
 
-        <FormControl isInvalid={!!errors.subject} className="mt-3">
+        <FormControl
+          isInvalid={!!form.formState.errors.subject}
+          className="mt-3"
+        >
           <FormLabel htmlFor="subject">主題</FormLabel>
-          <Input id="subject" {...register("subject")} />
+          <Input id="subject" {...form.register("subject")} />
           <FormErrorMessage>
-            {errors.subject && errors.subject.message}
+            {form.formState.errors.subject &&
+              form.formState.errors.subject.message}
           </FormErrorMessage>
         </FormControl>
 
-        <FormControl isInvalid={!!errors.content} className="mt-3">
+        <FormControl
+          isInvalid={!!form.formState.errors.content}
+          className="mt-3"
+        >
           <FormLabel htmlFor="content">本文</FormLabel>
-          <Textarea id="content" {...register("content")} />
+          <Textarea id="content" {...form.register("content")} />
           <FormErrorMessage>
-            {errors.content && errors.content.message}
+            {form.formState.errors.content &&
+              form.formState.errors.content.message}
           </FormErrorMessage>
         </FormControl>
 
         <Button type="submit" className="mt-3">
-          送信
+          {form.formState.isSubmitting ? "送信中" : "送信"}
         </Button>
       </Form>
     </main>
