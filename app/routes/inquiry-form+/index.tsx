@@ -89,7 +89,7 @@ export default function InquiryForm() {
       });
       reset();
     }
-  }, [navigation.state, actionData, toast, reset]);
+  }, [navigation.state, actionData]);
 
   return (
     <main className="flex min-h-screen flex-col items-center p-24">
