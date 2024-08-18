@@ -25,7 +25,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   const rawData = Object.fromEntries(formData);
   const result = mailformSchema.safeParse(rawData);
   if (!result.success) {
-    return { success: false, errors: result.error.flatten() };
+    return json({ success: false, errors: result.error.flatten() });
   }
   const validatedData = result.data;
 
