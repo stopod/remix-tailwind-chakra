@@ -1,23 +1,15 @@
-import {
-  Button,
-  FormControl,
-  FormErrorMessage,
-  FormLabel,
-  Input,
-  Textarea,
-} from "@chakra-ui/react";
+import { Button, FormControl, FormErrorMessage, FormLabel, Input, Textarea, useToast } from "@chakra-ui/react";
 import type { ActionFunctionArgs } from "@remix-run/node";
 import { Form, useSubmit } from "@remix-run/react";
 import { SubmitHandler, useForm } from "react-hook-form";
 
-import { useToast } from "@chakra-ui/react";
 import { useCallback, useEffect } from "react";
-import type { MailForm } from "../../lib/mailFormSchema";
-import { mailformSchema } from "../../lib/mailFormSchema";
+import type { MailForm } from "./shema/mailFormSchema";
+import { mailformSchema } from "./shema/mailFormSchema";
 
 import { json } from "@remix-run/node";
 import { Resend } from "resend";
-import { useMailForm } from "~/hooks/useMailForm";
+import { useMailForm } from "./hooks/useMailForm";
 const resend = new Resend(process.env.RESEND_API_KEY);
 
 export const action = async ({ request }: ActionFunctionArgs) => {
@@ -73,41 +65,26 @@ export default function InquiryForm() {
           <FormLabel htmlFor="username">名前</FormLabel>
           <Input id="username" {...form.register("username")} />
           <FormErrorMessage>
-            {form.formState.errors.username &&
-              form.formState.errors.username.message}
+            {form.formState.errors.username && form.formState.errors.username.message}
           </FormErrorMessage>
         </FormControl>
 
         <FormControl isInvalid={!!form.formState.errors.email} className="mt-3">
           <FormLabel htmlFor="email">メールアドレス</FormLabel>
           <Input id="email" type="text" {...form.register("email")} />
-          <FormErrorMessage>
-            {form.formState.errors.email && form.formState.errors.email.message}
-          </FormErrorMessage>
+          <FormErrorMessage>{form.formState.errors.email && form.formState.errors.email.message}</FormErrorMessage>
         </FormControl>
 
-        <FormControl
-          isInvalid={!!form.formState.errors.subject}
-          className="mt-3"
-        >
+        <FormControl isInvalid={!!form.formState.errors.subject} className="mt-3">
           <FormLabel htmlFor="subject">主題</FormLabel>
           <Input id="subject" {...form.register("subject")} />
-          <FormErrorMessage>
-            {form.formState.errors.subject &&
-              form.formState.errors.subject.message}
-          </FormErrorMessage>
+          <FormErrorMessage>{form.formState.errors.subject && form.formState.errors.subject.message}</FormErrorMessage>
         </FormControl>
 
-        <FormControl
-          isInvalid={!!form.formState.errors.content}
-          className="mt-3"
-        >
+        <FormControl isInvalid={!!form.formState.errors.content} className="mt-3">
           <FormLabel htmlFor="content">本文</FormLabel>
           <Textarea id="content" {...form.register("content")} />
-          <FormErrorMessage>
-            {form.formState.errors.content &&
-              form.formState.errors.content.message}
-          </FormErrorMessage>
+          <FormErrorMessage>{form.formState.errors.content && form.formState.errors.content.message}</FormErrorMessage>
         </FormControl>
 
         <Button type="submit" className="mt-3">
@@ -139,13 +116,8 @@ function MailFormOnlyReactFookForm() {
     <Form onSubmit={handleSubmit(onSubmit)}>
       <FormControl isInvalid={!!errors.name}>
         <FormLabel htmlFor="name">名前</FormLabel>
-        <Input
-          id="name"
-          {...register("name", { required: "名前は必須です" })}
-        />
-        <FormErrorMessage>
-          {errors.name && errors.name.message}
-        </FormErrorMessage>
+        <Input id="name" {...register("name", { required: "名前は必須です" })} />
+        <FormErrorMessage>{errors.name && errors.name.message}</FormErrorMessage>
       </FormControl>
 
       <FormControl isInvalid={!!errors.email} className="mt-3">
@@ -161,9 +133,7 @@ function MailFormOnlyReactFookForm() {
             },
           })}
         />
-        <FormErrorMessage>
-          {errors.email && errors.email.message}
-        </FormErrorMessage>
+        <FormErrorMessage>{errors.email && errors.email.message}</FormErrorMessage>
       </FormControl>
 
       <Button type="submit" className="mt-3">

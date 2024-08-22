@@ -1,8 +1,8 @@
 import { useReducer } from "react";
-import AddTask from "../../components/forReducerSample/AddTask";
-import TaskList from "../../components/forReducerSample/TaskList";
-import type { Task } from "../../components/forReducerSample/TaskList";
-import { tasksReducer } from "../../reducer/tasksReducer";
+import AddTask from "./components/forReducerSample/AddTask";
+import TaskList from "./components/forReducerSample/TaskList";
+import type { Task } from "./components/forReducerSample/TaskList";
+import { tasksReducer } from "./reducer/tasksReducer";
 
 export default function TaskApp() {
   const [tasks, dispatch] = useReducer(tasksReducer, initialTasks);

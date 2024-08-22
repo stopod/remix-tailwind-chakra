@@ -1,15 +1,9 @@
-import {
-  Button,
-  FormControl,
-  FormErrorMessage,
-  FormLabel,
-  Input,
-} from "@chakra-ui/react";
+import { Button, FormControl, FormErrorMessage, FormLabel, Input } from "@chakra-ui/react";
 import type { ActionFunctionArgs } from "@remix-run/node";
 import { Form, redirect, useActionData, useSubmit } from "@remix-run/react";
 import { useForm } from "react-hook-form";
-import type { LoginForm } from "../../../lib/loginShema";
-import { loginFormSchema } from "../../../lib/loginShema";
+import type { LoginForm } from "../shema/loginShema";
+import { loginFormSchema } from "../shema/loginShema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useCallback } from "react";
 import { json } from "@remix-run/node";
@@ -26,12 +20,10 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   const { email, password } = result.data;
 
   try {
-    const { data, error: signinError } = await supabase.auth.signInWithPassword(
-      {
-        email: email,
-        password: password,
-      }
-    );
+    const { data, error: signinError } = await supabase.auth.signInWithPassword({
+      email: email,
+      password: password,
+    });
 
     if (signinError) {
       if (signinError.message.includes("Invalid login credentials")) {
@@ -68,39 +60,28 @@ export default function Login() {
   return (
     <div className="mx-auto max-w-sm my-14">
       <h2 className="text-center font-medium text-2xl mb-4">ログイン</h2>
-      <h2 className="text-center text-red-500">
-        {data?.success === false && data?.message}
-      </h2>
+      <h2 className="text-center text-red-500">{data?.success === false && data?.message}</h2>
       <Form onSubmit={loginForm.handleSubmit(onSubmit)}>
         <FormControl isInvalid={!!loginForm.formState.errors.email}>
           <FormLabel htmlFor="email">MAIL</FormLabel>
           <Input id="email" type="text" {...loginForm.register("email")} />
           <FormErrorMessage>
-            {loginForm.formState.errors.email &&
-              loginForm.formState.errors.email.message}
+            {loginForm.formState.errors.email && loginForm.formState.errors.email.message}
           </FormErrorMessage>
         </FormControl>
 
         <FormControl isInvalid={!!loginForm.formState.errors.password}>
           <FormLabel htmlFor="password">パスワード</FormLabel>
-          <Input
-            id="password"
-            type="password"
-            {...loginForm.register("password")}
-          />
+          <Input id="password" type="password" {...loginForm.register("password")} />
           <FormErrorMessage>
-            {loginForm.formState.errors.password &&
-              loginForm.formState.errors.password.message}
+            {loginForm.formState.errors.password && loginForm.formState.errors.password.message}
           </FormErrorMessage>
         </FormControl>
         <Button type="submit" className="mt-4">
           ログイン
         </Button>
       </Form>
-      <Link
-        to="/login-sample/auth/signup"
-        className="mt-4 block text-center text-blue-400"
-      >
+      <Link to="/login-sample/auth/signup" className="mt-4 block text-center text-blue-400">
         初めてご利用の方
       </Link>
     </div>

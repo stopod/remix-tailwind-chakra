@@ -1,19 +1,13 @@
-import {
-  Button,
-  FormControl,
-  FormErrorMessage,
-  FormLabel,
-  Input,
-} from "@chakra-ui/react";
+import { Button, FormControl, FormErrorMessage, FormLabel, Input } from "@chakra-ui/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import type { ActionFunctionArgs } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import { Form, redirect, useActionData, useSubmit } from "@remix-run/react";
-import { useCallback, useEffect } from "react";
+import { useCallback } from "react";
 import { useForm } from "react-hook-form";
 import Link from "~/components/atoms/link/Link";
-import type { SignupForm } from "../../../lib/signupShema";
-import { signupFormSchema } from "../../../lib/signupShema";
+import type { SignupForm } from "../shema/signupShema";
+import { signupFormSchema } from "../shema/signupShema";
 import { supabase } from "../../../lib/supabaseClient";
 
 export const action = async ({ request }: ActionFunctionArgs) => {
@@ -45,11 +39,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     ]);
 
     if (userError) {
-      if (
-        userError.message.includes(
-          'duplicate key value violates unique constraint "User_pkey"'
-        )
-      ) {
+      if (userError.message.includes('duplicate key value violates unique constraint "User_pkey"')) {
         return json({ success: false, message: "既に存在するユーザーです" });
       } else {
         console.log(userError);
@@ -85,20 +75,13 @@ export default function Signup() {
   return (
     <div className="mx-auto max-w-sm my-14">
       <h2 className="text-center font-medium text-2xl mb-4">新規登録</h2>
-      <h2 className="text-center text-red-500">
-        {data?.success === false && data?.message}
-      </h2>
+      <h2 className="text-center text-red-500">{data?.success === false && data?.message}</h2>
       <Form onSubmit={signupForm.handleSubmit(onSubmit)}>
         <FormControl isInvalid={!!signupForm.formState.errors.username}>
           <FormLabel htmlFor="username">ユーザー名</FormLabel>
-          <Input
-            id="username"
-            type="text"
-            {...signupForm.register("username")}
-          />
+          <Input id="username" type="text" {...signupForm.register("username")} />
           <FormErrorMessage>
-            {signupForm.formState.errors.username &&
-              signupForm.formState.errors.username.message}
+            {signupForm.formState.errors.username && signupForm.formState.errors.username.message}
           </FormErrorMessage>
         </FormControl>
 
@@ -106,31 +89,22 @@ export default function Signup() {
           <FormLabel htmlFor="email">MAIL</FormLabel>
           <Input id="email" type="text" {...signupForm.register("email")} />
           <FormErrorMessage>
-            {signupForm.formState.errors.email &&
-              signupForm.formState.errors.email.message}
+            {signupForm.formState.errors.email && signupForm.formState.errors.email.message}
           </FormErrorMessage>
         </FormControl>
 
         <FormControl isInvalid={!!signupForm.formState.errors.password}>
           <FormLabel htmlFor="password">パスワード</FormLabel>
-          <Input
-            id="password"
-            type="password"
-            {...signupForm.register("password")}
-          />
+          <Input id="password" type="password" {...signupForm.register("password")} />
           <FormErrorMessage>
-            {signupForm.formState.errors.password &&
-              signupForm.formState.errors.password.message}
+            {signupForm.formState.errors.password && signupForm.formState.errors.password.message}
           </FormErrorMessage>
         </FormControl>
         <Button type="submit" className="mt-4">
           新規登録
         </Button>
       </Form>
-      <Link
-        to="/login-sample/auth/login"
-        className="mt-4 block text-center text-blue-400"
-      >
+      <Link to="/login-sample/auth/login" className="mt-4 block text-center text-blue-400">
         既に登録済みの方はこちら
       </Link>
     </div>

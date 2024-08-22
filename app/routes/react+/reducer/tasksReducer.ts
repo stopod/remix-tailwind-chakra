@@ -1,4 +1,4 @@
-import type { Task } from "~/components/forReducerSample/TaskList";
+import type { Task } from "~/routes/react+/components/forReducerSample/TaskList";
 
 type TasksAction = {
   Added: {

@@ -1,5 +1,5 @@
-import Heading from "../../components/forContextSample/Heading";
-import Section from "../../components/forContextSample/Section";
+import Heading from "./components/forContextSample/Heading";
+import Section from "./components/forContextSample/Section";
 
 export default function Page() {
   return (

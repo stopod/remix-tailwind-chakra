@@ -1,6 +1,6 @@
-import AddTask from "../../components/forReducerAndContext/AddTask";
-import TaskList from "../../components/forReducerAndContext/TaskList";
-import { TasksProvider } from "../../context/TasksContext";
+import AddTask from "./components/forReducerAndContext/AddTask";
+import TaskList from "./components/forReducerAndContext/TaskList";
+import { TasksProvider } from "./context/TasksContext";
 
 export default function TaskApp() {
   return (
