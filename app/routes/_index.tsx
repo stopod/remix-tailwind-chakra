@@ -36,8 +36,8 @@ export default function Index() {
       </div>
 
       <div className="mt-5 ml-5">
-        <Link to={"/conform-sample"} rounded={10} p={2} bg={"#e0ff00"}>
-          move to conform-sample
+        <Link to={"/conform-zod-sample"} rounded={10} p={2} bg={"#e0ff00"}>
+          move to conform-zod-sample
         </Link>
       </div>
 

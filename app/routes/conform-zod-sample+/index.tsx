@@ -38,7 +38,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     });
   }
 
-  return redirect("/conform-sample/result");
+  return redirect("/conform-zod-sample/result");
 };
 
 export default function ConformSample() {
