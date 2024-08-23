@@ -2,10 +2,7 @@ import type { MetaFunction } from "@remix-run/node";
 import Link from "~/components/atoms/link/Link";
 
 export const meta: MetaFunction = () => {
-  return [
-    { title: "New Remix App" },
-    { name: "description", content: "Welcome to Remix!" },
-  ];
+  return [{ title: "New Remix App" }, { name: "description", content: "Welcome to Remix!" }];
 };
 
 export default function Index() {
@@ -35,6 +32,12 @@ export default function Index() {
       <div className="mt-5 ml-5">
         <Link to={"/inquiry-form"} rounded={10} p={2} bg={"#e0ff00"}>
           move to inquiry-form
+        </Link>
+      </div>
+
+      <div className="mt-5 ml-5">
+        <Link to={"/conform-sample"} rounded={10} p={2} bg={"#e0ff00"}>
+          move to conform-sample
         </Link>
       </div>
 
