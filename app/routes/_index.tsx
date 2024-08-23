@@ -42,6 +42,12 @@ export default function Index() {
       </div>
 
       <div className="mt-5 ml-5">
+        <Link to={"/conform-yup-sample"} rounded={10} p={2} bg={"#e0ff00"}>
+          move to conform-yup-sample
+        </Link>
+      </div>
+
+      <div className="mt-5 ml-5">
         <Link to={"/login-sample"} rounded={10} p={2} bg={"#e0ff00"}>
           move to login-sample
         </Link>
