@@ -30,8 +30,14 @@ export default function Index() {
       </div>
 
       <div className="mt-5 ml-5">
-        <Link to={"/inquiry-form"} rounded={10} p={2} bg={"#e0ff00"}>
-          move to inquiry-form
+        <Link to={"/react-hook-form-zod-sample"} rounded={10} p={2} bg={"#e0ff00"}>
+          react-hook-form-zod-sample
+        </Link>
+      </div>
+
+      <div className="mt-5 ml-5">
+        <Link to={"/remix-hook-form-zod-sample"} rounded={10} p={2} bg={"#e0ff00"}>
+          remix-hook-form-zod-sample
         </Link>
       </div>
 
@@ -48,7 +54,7 @@ export default function Index() {
       </div>
 
       <div className="mt-5 ml-5">
-        <Link to={"/login-sample"} rounded={10} p={2} bg={"#e0ff00"}>
+        <Link to={"/login-sample"} rounded={10} p={2} bg={"#e0bb00"}>
           move to login-sample
         </Link>
       </div>
