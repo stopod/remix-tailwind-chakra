@@ -21,8 +21,12 @@ export default function LoaderValidContactId() {
   const { contact } = useLoaderData<typeof loader>();
   console.log(contact);
   return (
-    <div>
-      <h1>LoaderValidContactId</h1>
+    <div className="mt-5 ml-5">
+      <p className="font-bold">
+        {contact.first} {contact.last}
+      </p>
+      <p>{contact.twitter}</p>
+      <img src={contact.avatar} alt={contact.first} />
     </div>
   );
 }
