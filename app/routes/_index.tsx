@@ -64,6 +64,12 @@ export default function Index() {
           move to login-sample
         </Link>
       </div>
+
+      <div className="mt-5 ml-5">
+        <Link to={"/loader-valid"} rounded={10} p={2} bg={"#e0bb00"}>
+          move to loader-valid
+        </Link>
+      </div>
     </>
   );
 }
